@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Qidrix × INTANT: цифровая диспетчерская карьера, которую интегратор ставит под ключ.">
+<meta name="theme-color" content="#121417">
+<title>Qidrix × INTANT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap">
+<style>
+/* Layout: a control-room brief — wide screens and clips carry the argument, text sits beside them in narrow columns. */
+:root {
+  color-scheme: dark;
+  --bg: #121417;
+  --bg-2: #171a1e;
+  --panel: #1e2126;
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #f3f4f6;
+  --soft: #c9ced6;
+  --muted: #9ca3af;
+  --cyan: #00e5ff;
+  --cyan-dim: rgba(0, 229, 255, 0.1);
+  --amber: #ffb800;
+  --amber-dim: rgba(255, 184, 0, 0.12);
+  --lime: #c2ff41;
+  --ui: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Fira Code', ui-monospace, Menlo, Consolas, monospace;
+  --r: 12px;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--ui); -webkit-font-smoothing: antialiased; }
+a { color: var(--cyan); }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: 24px; }
+@media (max-width: 640px) { .wrap { padding-inline: 16px; } }
+h1, h2, h3 { margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+h2 { font-size: clamp(28px, 4vw, 42px); line-height: 1.12; font-weight: 800; }
+h3 { font-size: 20px; line-height: 1.3; font-weight: 700; }
+p { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); }
+.lede { font-size: clamp(17px, 2vw, 20px); color: var(--soft); max-width: 62ch; }
+.muted { color: var(--muted); }
+section { padding-block: clamp(56px, 8vw, 104px); border-top: 1px solid var(--line); }
+section.alt { background: var(--bg-2); }
+.head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; max-width: 760px; }
+
+/* top bar */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: rgba(18, 20, 23, 0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 16px; min-height: 60px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 21px; letter-spacing: -0.04em; color: var(--text); text-decoration: none; }
+.brand svg { width: 26px; height: 26px; }
+.brand b { color: var(--cyan); }
+.brand .x { color: var(--muted); font-weight: 300; margin-inline: 2px; }
+.brand .partner { color: var(--amber); letter-spacing: 0; }
+.top nav { margin-left: auto; display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
+.top nav a { color: var(--muted); text-decoration: none; }
+.top nav a:hover, .top nav a:focus-visible { color: var(--text); }
+@media (max-width: 760px) { .top nav { display: none; } }
+
+/* hero */
+.hero { padding-block: clamp(40px, 6vw, 72px) clamp(40px, 6vw, 64px); }
+.hero h1 { font-size: clamp(36px, 6vw, 68px); line-height: 1.04; font-weight: 800; max-width: 16ch; }
+.hero h1 em { font-style: normal; color: var(--cyan); }
+.hero .grid { display: grid; gap: 28px; }
+.hero .facts { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); font-size: 13px; color: var(--soft); }
+.chip i { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); }
+.chip.amber i { background: var(--amber); }
+
+/* media frames */
+.frame { position: relative; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: #0b0c0e; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45); }
+.frame img, .frame video { display: block; width: 100%; height: auto; max-width: 100%; }
+.frame figcaption { position: absolute; left: 12px; bottom: 12px; padding: 5px 10px; border-radius: 8px; background: rgba(12, 13, 15, 0.82); font: 12px/1.4 var(--mono); color: var(--soft); max-width: calc(100% - 24px); }
+.frame .rec { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: 8px; background: rgba(12, 13, 15, 0.82); font: 11px/1.4 var(--mono); color: var(--soft); letter-spacing: 0.08em; text-transform: uppercase; }
+.frame .rec::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #ef4444; }
+button.zoom { all: unset; cursor: zoom-in; display: block; }
+button.zoom:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: var(--r); }
+
+/* split rows */
+.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+.split.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.split.flip > .text { order: 2; }
+.split + .split { margin-top: clamp(48px, 7vw, 88px); }
+.text { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.text p { color: var(--soft); }
+.text ul { margin: 0; padding-left: 18px; color: var(--soft); display: grid; gap: 6px; }
+.tag { align-self: flex-start; font: 11px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 9px; border-radius: 6px; }
+.tag.ready { color: var(--cyan); background: var(--cyan-dim); }
+.tag.pilot { color: var(--amber); background: var(--amber-dim); }
+@media (max-width: 860px) { .split, .split.flip { grid-template-columns: 1fr; } .split.flip > .text { order: 0; } }
+
+/* roles */
+.roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.role { display: flex; flex-direction: column; gap: 12px; padding: 24px; border-radius: var(--r); background: var(--panel); border: 1px solid var(--line); min-width: 0; }
+.role.intant { border-top: 3px solid var(--amber); }
+.role.qidrix { border-top: 3px solid var(--cyan); }
+.role.both { border-top: 3px solid var(--muted); }
+.role .who { font: 12px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; }
+.role.intant .who { color: var(--amber); }
+.role.qidrix .who { color: var(--cyan); }
+.role.both .who { color: var(--muted); }
+.role ul { margin: 0; padding-left: 18px; color: var(--soft); display: grid; gap: 6px; font-size: 15px; }
+@media (max-width: 900px) { .roles { grid-template-columns: 1fr; } }
+
+/* gallery */
+.gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.gallery .item { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.gallery h3 { font-size: 16px; }
+.gallery p { font-size: 14px; color: var(--muted); }
+@media (max-width: 900px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .gallery { grid-template-columns: 1fr; } }
+
+/* reasons */
+.reasons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.reason { background: var(--bg); padding: 26px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+section.alt .reason { background: var(--bg-2); }
+.reason p { color: var(--soft); font-size: 15px; }
+.reason .k { font: 12px/1 var(--mono); color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase; }
+@media (max-width: 760px) { .reasons { grid-template-columns: 1fr; } }
+
+/* comparison */
+.table { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); }
+table { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+th { font: 12px/1.4 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--panel); }
+th.q { color: var(--cyan); }
+td:first-child { color: var(--muted); width: 22%; }
+td.q { color: var(--text); }
+td.o { color: var(--soft); }
+tr:last-child td { border-bottom: 0; }
+
+/* architecture */
+.flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+.node { position: relative; padding: 18px; border-radius: var(--r); background: var(--panel); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.node b { font-size: 16px; }
+.node span { font-size: 13px; color: var(--muted); }
+.node .who { font: 11px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; }
+.node.i .who { color: var(--amber); }
+.node.n .who { color: var(--lime); }
+.node.q .who { color: var(--cyan); }
+.node:not(:last-child)::after { content: '→'; position: absolute; right: -10px; top: 50%; transform: translate(50%, -50%); color: var(--cyan); font-weight: 700; }
+@media (max-width: 900px) { .flow { grid-template-columns: 1fr; } .node:not(:last-child)::after { content: '↓'; right: 50%; top: auto; bottom: -10px; transform: translate(50%, 50%); } }
+
+/* verticals */
+.verts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.vert { padding: 22px; border-radius: var(--r); border: 1px solid var(--line); background: var(--panel); display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.vert.on { border-color: rgba(0, 229, 255, 0.45); }
+.vert p { font-size: 14px; color: var(--muted); }
+@media (max-width: 900px) { .verts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .verts { grid-template-columns: 1fr; } }
+
+/* pilot steps */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: step; }
+.step { padding: 24px; border-radius: var(--r); background: var(--panel); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.step .when { font: 12px/1 var(--mono); color: var(--amber); letter-spacing: 0.1em; text-transform: uppercase; }
+.step ul { margin: 0; padding-left: 18px; color: var(--soft); display: grid; gap: 6px; font-size: 15px; }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr; } }
+
+.callout { padding: 22px 24px; border-radius: var(--r); border: 1px solid rgba(0, 229, 255, 0.35); background: var(--cyan-dim); display: flex; flex-direction: column; gap: 8px; }
+.callout p { color: var(--soft); }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; background: var(--cyan); color: #0b1a1e; font-weight: 700; text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+footer { padding-block: 40px 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
+
+/* lightbox */
+.lb { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 24px; background: rgba(6, 7, 9, 0.9); }
+.lb[hidden] { display: none; }
+.lb img { max-width: min(1600px, 100%); max-height: calc(100vh - 48px); border-radius: var(--r); box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6); }
+.lb button { position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); color: var(--text); font-size: 20px; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+/* partner logo: the original INTANT mark, shown light on the dark page */
+.plogo { display: block; height: 15px; width: auto; filter: brightness(0) invert(1); opacity: 0.92; }
+.brand .plogo { height: 16px; }
+
+/* strengths */
+.strengths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.strength { position: relative; padding: 26px 24px 24px; border-radius: var(--r); background: linear-gradient(180deg, rgba(0, 229, 255, 0.07), rgba(0, 229, 255, 0) 60%), var(--panel); border: 1px solid rgba(0, 229, 255, 0.28); display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.strength .n { font: 600 13px/1 var(--mono); color: var(--cyan); letter-spacing: 0.08em; }
+.strength p { color: var(--soft); font-size: 15px; }
+.strength .proof { margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--line); font: 12px/1.5 var(--mono); color: var(--muted); }
+.strength.key { grid-column: span 2; border-color: rgba(255, 184, 0, 0.45); background: linear-gradient(180deg, var(--amber-dim), rgba(255, 184, 0, 0) 70%), var(--panel); }
+.strength.key .n { color: var(--amber); }
+@media (max-width: 900px) { .strengths { grid-template-columns: 1fr; } .strength.key { grid-column: auto; } }
+
+/* market notes */
+.text .market, .market { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.market li { padding: 14px 16px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); color: var(--soft); font-size: 15px; }
+.market li b { color: var(--text); }
+.market a { font-size: 13px; white-space: nowrap; }
+.note { font: 12px/1.6 var(--mono); color: var(--muted); }
+
+/* phone notice */
+.desk { position: fixed; inset: 0; z-index: 100; display: none; overflow-y: auto; background: radial-gradient(120% 70% at 50% 0%, rgba(0, 229, 255, 0.16), rgba(0, 229, 255, 0) 60%), var(--bg); padding: max(32px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom)); }
+.desk .in { min-height: 100%; max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; text-align: center; }
+.desk .logos { display: flex; align-items: center; gap: 14px; }
+.desk .logos svg { width: 30px; height: 30px; }
+.desk .logos .x { color: var(--muted); font-weight: 300; font-size: 22px; }
+.desk .logos .plogo { height: 18px; }
+.desk .screen { position: relative; width: 210px; aspect-ratio: 16 / 10; border-radius: 10px; border: 2px solid rgba(0, 229, 255, 0.55); background: #0d0f12 url("media/overview.jpg") center / cover; box-shadow: 0 0 0 6px rgba(0, 229, 255, 0.06), 0 24px 60px rgba(0, 0, 0, 0.55); }
+.desk .screen::after { content: ''; position: absolute; left: 50%; bottom: -16px; width: 64px; height: 12px; transform: translateX(-50%); border-radius: 0 0 6px 6px; background: #2a2f36; }
+.desk h2 { font-size: 26px; line-height: 1.2; }
+.desk p { color: var(--soft); font-size: 15px; }
+.desk .why { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.desk .why span { font: 12px/1 var(--mono); color: var(--muted); padding: 8px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); }
+.desk .skip { background: none; border: 0; color: var(--muted); font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 8px; }
+@media (max-width: 760px) { .desk { display: block; } html.desk-skip .desk { display: none; } body.desk-on { overflow: hidden; } }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<div class="desk" id="desk" role="dialog" aria-modal="true" aria-labelledby="desk-t">
+  <div class="in">
+    <div class="logos"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M10 10H80V60H60V30H30V60H60V80H10Z" fill="#f3f4f6"/><rect x="60" y="60" width="30" height="30" fill="#00e5ff"/></svg><span class="x">×</span><img class="plogo" src="media/intant-logo.png" alt="INTANT" width="764" height="108"></div>
+    <div class="screen" aria-hidden="true"></div>
+    <h2 id="desk-t">Откройте эту страницу на компьютере</h2>
+    <p>Здесь крупные снимки и ролики диспетчерской Qidrix: она рассчитана на широкий экран пульта, и на телефоне детали не разглядеть.</p>
+    <div class="why"><span>Снимки пульта 1600 px</span><span>Ролики с работающей программы</span><span>Живое демо</span></div>
+    <p class="muted" style="font-size: 14px">Перешлите себе эту ссылку и откройте её на ПК или ноутбуке.</p>
+    <button type="button" class="skip" id="desk-skip">Всё равно смотреть на телефоне</button>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Qidrix × INTANT">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M10 10H80V60H60V30H30V60H60V80H10Z" fill="#f3f4f6"/><rect x="60" y="60" width="30" height="30" fill="#00e5ff"/></svg>
+      <span>Qidri<b>x</b></span><span class="x">×</span><img class="plogo" src="media/intant-logo.png" alt="INTANT" width="764" height="108">
+    </a>
+    <nav aria-label="Разделы">
+      <a href="#roles">Роли</a>
+      <a href="#product">Продукт</a>
+      <a href="#strengths">Сильные стороны</a>
+      <a href="#why3d">Почему 3D</a>
+      <a href="#compare">Сравнение</a>
+      <a href="#scale">Масштаб</a>
+      <a href="#pilot">Пилот</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero wrap">
+    <div class="grid">
+      <p class="eyebrow">Предложение для INTANT · конфиденциально</p>
+      <h1>Цифровая диспетчерская карьера, которую <em>интегратор ставит под ключ</em></h1>
+      <p class="lede">INTANT выходит на рынок как интегратор: у вас есть доступ к вендорам оборудования и к предприятиям. У Qidrix есть программная платформа, архитектура и практическое видение того, как диспетчерская работает на объекте и как её развивать. Вместе это готовый продукт для горнодобывающих предприятий Центральной Азии.</p>
+      <div class="facts">
+        <span class="chip"><i></i>Работает в браузере, без установки программ</span>
+        <span class="chip"><i></i>Любое оборудование через шлюз Qidrix Edge</span>
+        <span class="chip"><i></i>Русский интерфейс, разработка рядом</span>
+        <span class="chip amber"><i></i>Живое демо на модели карьеров АГМК</span>
+      </div>
+      <figure class="frame">
+        <video src="media/clip-fly.webm" poster="media/tour1.jpg" muted loop playsinline preload="metadata" data-auto aria-label="Пролёт над моделью карьера Кальмакыр с сетью связи и техникой"></video>
+        <span class="rec">Запись с работающего пульта</span>
+        <figcaption>Пролёт по модели карьеров АГМК: мачты связи, секторы, техника</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <section id="roles">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Как мы делим работу</p>
+        <h2>INTANT ведёт заказчика и оборудование, Qidrix даёт софт и развивает его</h2>
+        <p class="lede">Заказчик видит одного подрядчика, INTANT. Qidrix работает за ним как разработчик платформы и отвечает за то, чтобы программа на объекте работала и становилась лучше.</p>
+      </div>
+      <div class="roles">
+        <div class="role intant">
+          <span class="who">INTANT · интегратор</span>
+          <h3>Заказчик и железо</h3>
+          <ul>
+            <li>Продажи и отношения с предприятием</li>
+            <li>Подбор и поставка оборудования от вендоров</li>
+            <li>Монтаж на технику и объекты, пусконаладка</li>
+            <li>Первая линия поддержки на месте</li>
+            <li>Свои решения по безопасности, включая «Антисон» INTANT</li>
+          </ul>
+        </div>
+        <div class="role qidrix">
+          <span class="who">Qidrix · платформа</span>
+          <h3>Программа и архитектура</h3>
+          <ul>
+            <li>Диспетчерская Qidrix и шлюз Qidrix Edge</li>
+            <li>Подключение нового оборудования: профиль под каждое устройство</li>
+            <li>Интеграция с ERP заказчика</li>
+            <li>Обновления, вторая линия поддержки</li>
+            <li>Обучение инженеров INTANT</li>
+          </ul>
+        </div>
+        <div class="role both">
+          <span class="who">Вместе</span>
+          <h3>Пресейл и развитие</h3>
+          <ul>
+            <li>Демонстрации и пилоты у заказчиков</li>
+            <li>Замечания с объектов превращаются в доработки продукта</li>
+            <li>Отраслевые сборки под новые объекты: завод, склад, ТЭК</li>
+            <li>Коммерческие условия обсуждаем отдельно</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="product" class="alt">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Продукт · Qidrix Карьер</p>
+        <h2>Что уже работает сегодня</h2>
+        <p class="lede">Всё ниже снято с работающей программы на модели трёх карьеров АГМК: Кальмакыр, Ёшлик-1, Сарычеку. Ролики записаны с экрана без монтажа.</p>
+      </div>
+
+      <div class="split">
+        <div class="text">
+          <span class="tag ready">Готово</span>
+          <h3>Назначение техники перетаскиванием и подсказки</h3>
+          <p>Диспетчер перетаскивает самосвал на другой забой, прямо на карте или в списке. Программа сама подсказывает, какую машину куда переставить и сколько тонн в час это добавит карьеру. Ошибочное назначение отменяется одной кнопкой.</p>
+          <ul>
+            <li>Сопряжение экскаватор–самосвал по каждому забою</li>
+            <li>Гружёная машина получает новый наряд после разгрузки</li>
+            <li>В журнале видно, кто и когда назначил</li>
+          </ul>
+        </div>
+        <figure class="frame">
+          <video src="media/clip-assign.webm" poster="media/clip-assign.jpg" muted loop playsinline preload="metadata" data-auto aria-label="Самосвал перетаскивают на другой забой, затем применяется подсказка распределения"></video>
+          <span class="rec">Запись</span>
+        </figure>
+      </div>
+
+      <div class="split flip">
+        <div class="text">
+          <span class="tag ready">Готово</span>
+          <h3>Планшет водителя «Qidrix Борт»</h3>
+          <p>Каждый наряд уходит водителю на планшет в кабине по сети карьера. Водитель отвечает «Принял» или «Не могу» с причиной, и ответ сразу виден диспетчеру. Если водитель не ответил за три минуты, диспетчер получает тревогу.</p>
+          <ul>
+            <li>У водителя на экране: задание, загрузка кузова, скорость, топливо, рейсы за смену</li>
+            <li>Кнопка «Вызвать диспетчера» с защитой от случайного нажатия</li>
+            <li>Признаки сна за рулём — красный экран «Остановитесь»</li>
+          </ul>
+        </div>
+        <figure class="frame">
+          <video src="media/clip-cab.webm" poster="media/clip-cab.jpg" muted loop playsinline preload="metadata" data-auto aria-label="На планшет водителя приходит наряд, водитель принимает его, затем читает сообщение диспетчера"></video>
+          <span class="rec">Запись</span>
+        </figure>
+      </div>
+
+      <div class="split">
+        <div class="text">
+          <span class="tag ready">Готово</span>
+          <h3>Безопасность: «Антисон» и тревоги</h3>
+          <p>Камера в кабине и анализ лица на шлюзе круглосуточно. Микросон, усталость или вызов водителя поднимают баннер с сиреной на всех пультах. Если тревогу никто не квитировал, она уходит начальнику смены в Telegram. Пороги настраиваются под каждую камеру, а на стоянке программа молчит.</p>
+          <ul>
+            <li>Тревоги по стандарту ISA-18.2: приоритеты, квитирование, эскалация</li>
+            <li>Решения INTANT по безопасности можно подключить к шлюзу: пишем профиль под их протокол</li>
+          </ul>
+        </div>
+        <figure class="frame">
+          <video src="media/clip-alarm.webm" poster="media/clip-alarm.jpg" muted loop playsinline preload="metadata" data-auto aria-label="Водитель нажимает вызов, на пульте появляется баннер тревоги, диспетчер открывает камеру"></video>
+          <span class="rec">Запись</span>
+        </figure>
+      </div>
+
+      <div class="split flip">
+        <div class="text">
+          <span class="tag ready">Готово</span>
+          <h3>Смена под контролем: лента, простои, пересменка</h3>
+          <p>Лента смены показывает, что делала каждая машина и экскаватор: рейсы, погрузку, очереди, простои, ремонты. Потерянное время считается по каждой единице. Пересменка и заправка ведутся из пульта, программа показывает, сколько тонн они стоили.</p>
+          <ul>
+            <li>Журнал ремонтов: причина, длительность, кто вывел и кто вернул</li>
+            <li>Добыча по часам против плана, выполнение по забоям</li>
+            <li>Шихтовка: медь, золото, молибден в руде на фабрику против коридора</li>
+          </ul>
+        </div>
+        <figure class="frame">
+          <video src="media/clip-shift.webm" poster="media/clip-shift.jpg" muted loop playsinline preload="metadata" data-auto aria-label="Начало пересменки, лента смены по часам, завершение пересменки"></video>
+          <span class="rec">Запись</span>
+        </figure>
+      </div>
+
+      <div class="head" style="margin-top: clamp(56px, 8vw, 96px)">
+        <h3>Ещё возможности</h3>
+        <p class="muted">Нажмите на снимок, чтобы открыть его в полном размере.</p>
+      </div>
+      <div class="gallery">
+        <div class="item">
+          <button class="zoom" data-full="media/overview.jpg" aria-label="Открыть снимок: главный экран"><figure class="frame"><img src="media/overview.jpg" alt="Главный экран: 3D-модель карьера, показатели, добыча за смену, журнал событий" loading="lazy"></figure></button>
+          <h3>Весь карьер на одном экране</h3>
+          <p>Рельеф, уступы, дороги, техника, забои и связь. Три карьера переключаются одним щелчком.</p>
+        </div>
+        <div class="item">
+          <button class="zoom" data-full="media/card.jpg" aria-label="Открыть снимок: карточка самосвала"><figure class="frame"><img src="media/card.jpg" alt="Карточка самосвала: состояние, загрузка, наряд, связь, кабина" loading="lazy"></figure></button>
+          <h3>Карточка каждой машины</h3>
+          <p>Состояние, загрузка кузова, наряд, канал связи, переписка с кабиной.</p>
+        </div>
+        <div class="item">
+          <button class="zoom" data-full="media/timeline.jpg" aria-label="Открыть снимок: лента смены"><figure class="frame"><img src="media/timeline.jpg" alt="Лента смены: состояния техники по времени и потерянное время" loading="lazy"></figure></button>
+          <h3>Лента смены</h3>
+          <p>Что делала каждая единица и где теряется время за час, четыре часа или смену.</p>
+        </div>
+        <div class="item">
+          <button class="zoom" data-full="media/shift-tab.jpg" aria-label="Открыть снимок: вкладка Смена"><figure class="frame"><img src="media/shift-tab.jpg" alt="Вкладка Смена: ремонты, пересменка, заправка, шихтовка" loading="lazy"></figure></button>
+          <h3>Ремонты, заправка, шихтовка</h3>
+          <p>Всё, что решает начальник смены, в одной вкладке.</p>
+        </div>
+        <div class="item">
+          <button class="zoom" data-full="media/plan.jpg" aria-label="Открыть снимок: план смены"><figure class="frame"><img src="media/plan.jpg" alt="План смены по забоям и коридор качества руды" loading="lazy"></figure></button>
+          <h3>План смены из Excel или ERP</h3>
+          <p>Тонны по забоям и коридор качества руды. От плана считаются темп и отклонения.</p>
+        </div>
+        <div class="item">
+          <button class="zoom" data-full="media/antisleep-settings.jpg" aria-label="Открыть снимок: настройки Антисона"><figure class="frame"><img src="media/antisleep-settings.jpg" alt="Настройки контроля усталости: камеры, пороги, тишина на стоянке" loading="lazy"></figure></button>
+          <h3>Настройки «Антисона»</h3>
+          <p>Камеры, пороги, тишина на стоянке. Меняет начальник смены, применяется на всех пультах.</p>
+        </div>
+        <div class="item">
+          <button class="zoom" data-full="media/network.jpg" aria-label="Открыть снимок: покрытие связи"><figure class="frame"><img src="media/network.jpg" alt="Карта сигнала сети ASTRADRIVE по рельефу карьера" loading="lazy"></figure></button>
+          <h3>Связь по рельефу</h3>
+          <p>Покрытие сети ASTRADRIVE рассчитано по уступам: видно, где связь пропадёт, ещё до монтажа.</p>
+        </div>
+        <div class="item">
+          <button class="zoom" data-full="media/video.jpg" aria-label="Открыть снимок: видеостена"><figure class="frame"><img src="media/video.jpg" alt="Видеостена: четыре камеры периметра поверх карты" loading="lazy"></figure></button>
+          <h3>Видео рядом с картой</h3>
+          <p>Кабины, кузова, забои и периметр рядом с картой. Архив с регистраторов на объекте подключаем в пилоте.</p>
+        </div>
+        <div class="item">
+          <button class="zoom" data-full="media/windows.jpg" aria-label="Открыть снимок: окна"><figure class="frame"><img src="media/windows.jpg" alt="Открепленные окна панелей поверх карты" loading="lazy"></figure></button>
+          <h3>Рабочее место под диспетчера</h3>
+          <p>Любую панель можно открепить и вынести на второй монитор. Раскладка запоминается за каждым сотрудником.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why3d">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Почему 3D-модель</p>
+        <h2>Карьер объёмный, и диспетчер должен видеть его таким</h2>
+        <p class="lede">Обычные системы показывают технику точками на плоской карте или строками таблицы. На карьере этого мало: машины работают на разных горизонтах, дороги идут серпантином, связь закрывают борта. 3D-модель показывает ситуацию так, как она выглядит на самом деле.</p>
+      </div>
+      <div class="reasons">
+        <div class="reason"><span class="k">Ситуация</span><h3>Понятно, почему машина стоит</h3><p>Видно, что самосвал в очереди у забоя на нижнем горизонте, а не просто «скорость 0». Диспетчер принимает решение, не уточняя по рации.</p></div>
+        <div class="reason"><span class="k">Простои</span><h3>Очереди и ожидание видны сразу</h3><p>Очередь у одного экскаватора и простаивающий соседний видны на одном экране, программа подсказывает перестановку. Это прямые тонны в смену.</p></div>
+        <div class="reason"><span class="k">Связь</span><h3>Слепые зоны известны заранее</h3><p>Покрытие сети считается по рельефу. Мобильную мачту ставят туда, где она нужна, ещё на модели.</p></div>
+        <div class="reason"><span class="k">Люди</span><h3>Новый диспетчер осваивается быстрее</h3><p>Карьер на экране выглядит как в жизни, поэтому разобраться в нём проще, чем в схеме или таблице. Режим ISA-101 оставляет цветом только отклонения.</p></div>
+        <div class="reason"><span class="k">Руководство</span><h3>Понятно без пояснений</h3><p>Главный инженер или заказчик видят смену целиком. Пролёт по проекту сети показывает решение ещё до закупки.</p></div>
+        <div class="reason"><span class="k">Безопасность</span><h3>Тревога с местом на карте</h3><p>Микросон, вызов водителя или опасная зона появляются там, где это происходит, с камерой и кнопкой связи.</p></div>
+      </div>
+      <div class="callout" style="margin-top: 28px">
+        <h3>Что это даёт предприятию</h3>
+        <p>Меньше очередей и простоев экскаваторов, быстрее реакция диспетчера, контроль усталости водителей, план-факт по часам и забоям, стабильное качество руды на фабрику. Насколько вырастет добыча на конкретном карьере, мы измерим в пилоте: заранее договоримся о показателях и сравним их до и после.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="strengths">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Сильные стороны</p>
+        <h2>Что отличает Qidrix — и что это даёт интегратору</h2>
+        <p class="lede">Только то, что есть в продукте сейчас и что можно показать на демо. Каждый пункт подтверждён экраном или роликом на этой странице.</p>
+      </div>
+      <div class="strengths">
+        <div class="strength key">
+          <span class="n">01 · Главное</span>
+          <h3>Одна программа вместо пяти</h3>
+          <p>3D-модель карьера, техника в реальном времени, сеть связи, видео с камер, «Антисон», наряды в кабину и планшет водителя, план смены и простои — в одном окне диспетчера и на одном шлюзе. Обычно это разные системы разных поставщиков, и интегратору приходится их сшивать.</p>
+          <span class="proof">Ролики в разделе «Что уже работает сегодня»</span>
+        </div>
+        <div class="strength">
+          <span class="n">02</span>
+          <h3>Проект сети связи до закупки</h3>
+          <p>Мачты, секторы и mesh ASTRADRIVE прямо на 3D-модели карьера. Интегратор показывает заказчику покрытие ещё на этапе предложения.</p>
+          <span class="proof">Снимок «Связь по рельефу» и пролёт в начале</span>
+        </div>
+        <div class="strength">
+          <span class="n">03</span>
+          <h3>Оборудование выбирает интегратор</h3>
+          <p>Шлюз не привязан к одному производителю: устройство подключается через профиль. INTANT подбирает железо под задачу и бюджет, а не под экосистему.</p>
+          <span class="proof">Teltonika, Hikvision, Modbus TCP, RTSP — проверено на эмуляторах</span>
+        </div>
+        <div class="strength">
+          <span class="n">04</span>
+          <h3>Безопасность водителя внутри диспетчерской</h3>
+          <p>Тревога «Антисона» сразу на карте у нужной машины, с видео и квитированием; настройки чувствительности и выбор камер; эскалация начальнику смены в Telegram.</p>
+          <span class="proof">Ролик про «Антисон» и снимок его настроек</span>
+        </div>
+        <div class="strength">
+          <span class="n">05</span>
+          <h3>Доработки за дни, а не релизы</h3>
+          <p>Разработчик работает в связке с интегратором. За последние недели по замечаниям добавлены: настройки «Антисона», учётные записи и роли, окна на второй монитор, наряды в кабину, уведомления, план смены из Excel или ERP.</p>
+          <span class="proof">Всё перечисленное есть в демо</span>
+        </div>
+        <div class="strength">
+          <span class="n">06</span>
+          <h3>Данные остаются на объекте</h3>
+          <p>Шлюз Qidrix Edge стоит на сервере заказчика и работает без интернета. Пульты открываются в браузере в сети предприятия, без установки программ.</p>
+          <span class="proof">Архитектура — раздел «Как устроено»</span>
+        </div>
+        <div class="strength">
+          <span class="n">07</span>
+          <h3>Старт с малого</h3>
+          <p>Пилот на одном карьере и 5–10 машинах, затем расширение на тот же шлюз. Заказчику не нужно сразу решаться на проект для всего предприятия.</p>
+          <span class="proof">Раздел «Пилот: честный план»</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="compare" class="alt">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Почему Qidrix</p>
+        <h2>Чем мы удобнее крупных зарубежных систем для интегратора</h2>
+        <p class="lede">Крупные системы диспетчеризации сильны, но рассчитаны на работу через экосистему своего производителя. Для интегратора, который подбирает оборудование под задачу и бюджет заказчика, важнее гибкость.</p>
+      </div>
+      <div class="table">
+        <table>
+          <thead><tr><th></th><th class="q">Qidrix</th><th>Крупные зарубежные системы (как правило)</th></tr></thead>
+          <tbody>
+            <tr><td>Оборудование</td><td class="q">Любой вендор: терминалы, камеры, регистраторы, ПЛК, СКУД подключаются к шлюзу через профиль устройства</td><td class="o">Бортовое оборудование и терминалы своей экосистемы</td></tr>
+            <tr><td>Рабочее место</td><td class="q">Браузер, без установки; второй монитор, раскладка за сотрудником</td><td class="o">Отдельная клиентская программа</td></tr>
+            <tr><td>Работа без интернета</td><td class="q">Шлюз стоит на объекте и работает автономно</td><td class="o">Зависит от поставки и лицензии</td></tr>
+            <tr><td>Доработки</td><td class="q">Пишем под объект по ходу пилота, в тесной связке с интегратором</td><td class="o">По релизному плану производителя</td></tr>
+            <tr><td>Язык и поддержка</td><td class="q">Русский интерфейс, разработчик в регионе</td><td class="o">Через представительство и партнёров</td></tr>
+            <tr><td>Старт</td><td class="q">Пилот на одном карьере, затем расширение</td><td class="o">Обычно проект внедрения на всё предприятие</td></tr>
+            <tr><td>Безопасность водителя</td><td class="q">Контроль усталости, тревоги и планшет водителя в одной программе с диспетчерской</td><td class="o">Часто отдельные системы разных поставщиков</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="scale">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Масштаб</p>
+        <h2>Одно ядро — разные объекты</h2>
+        <p class="lede">Диспетчерская по сути везде одна: объекты на карте, устройства, видео, тревоги, показатели, связь с ERP. Это ядро Qidrix. Под новый объект меняется отраслевая сборка: модель объекта, правила и отчёты. Ядро остаётся тем же.</p>
+      </div>
+      <div class="verts">
+        <div class="vert on"><span class="tag ready">Готово</span><h3>Qidrix Карьер</h3><p>Техника, забои, связь, «Антисон», планшет водителя. Демо на модели АГМК.</p></div>
+        <div class="vert"><span class="tag pilot">Под проект</span><h3>Qidrix Завод</h3><p>Цеха и линии, простои оборудования, опасные зоны, персонал.</p></div>
+        <div class="vert"><span class="tag pilot">Под проект</span><h3>Qidrix Склад</h3><p>Двор, очередь машин, тайм-слоты, ворота, весовая.</p></div>
+        <div class="vert"><span class="tag pilot">Под проект</span><h3>Qidrix ТЭК</h3><p>Удалённые объекты, телеметрия, периметр, связь.</p></div>
+      </div>
+      <div class="split" style="margin-top: 40px">
+        <div class="text">
+          <h3>Масштаб внутри предприятия</h3>
+          <ul>
+            <li>Несколько карьеров в одной диспетчерской, переключение одним щелчком</li>
+            <li>Справочник реальной техники из Excel: бортовые номера, марки, грузоподъёмность</li>
+            <li>Учётные записи и роли: диспетчер, начальник смены, администратор; журнал действий</li>
+            <li>Сколько угодно пультов на одном шлюзе: настройки, план и привязки общие</li>
+            <li>ERP присылает план смены на шлюз по открытому запросу</li>
+          </ul>
+        </div>
+        <figure class="frame"><img src="media/isa.jpg" alt="Главный экран в режиме ISA-101: нормальная работа серым, цветом только отклонения" loading="lazy"><figcaption>Режим ISA-101: цветом только то, что требует внимания</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Как устроено</p>
+        <h2>От кабины до ERP — один контур</h2>
+      </div>
+      <div class="flow">
+        <div class="node i"><span class="who">INTANT</span><b>Борт и объект</b><span>Терминалы, камеры, датчики, планшет водителя</span></div>
+        <div class="node n"><span class="who">Сеть</span><b>ASTRADRIVE</b><span>Секторы на мачтах и mesh между машинами</span></div>
+        <div class="node q"><span class="who">Qidrix</span><b>Шлюз Qidrix Edge</b><span>На объекте: протоколы, «Антисон», наряды, хранение данных</span></div>
+        <div class="node q"><span class="who">Qidrix</span><b>Диспетчерская</b><span>3D-сцена, видео, тревоги, смена</span></div>
+        <div class="node q"><span class="who">Qidrix</span><b>ERP заказчика</b><span>План на смену, итоги</span></div>
+      </div>
+      <p class="muted" style="margin-top: 20px; max-width: 70ch">В шлюзе уже есть протоколы терминалов Teltonika, событий регистраторов и камер Hikvision, ПЛК по Modbus TCP, видео по RTSP. Они проверены на эмуляторах оборудования и на тестовой камере; на реальной технике их проверяем в пилоте. Новое устройство подключается к шлюзу через свой профиль, интерфейс диспетчерской при этом не меняется.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="split">
+        <div class="text">
+          <p class="eyebrow">Окно возможностей</p>
+          <h2>Местного продукта такого класса в регионе мы не видим</h2>
+          <p>По нашей оценке, мы не видим сегодня в Центральной Азии продукта местной разработки, который объединяет 3D-диспетчерскую карьера, связь, видео, контроль усталости и терминал водителя в одной системе.</p>
+          <ul class="market">
+            <li><b>Крупные предприятия внедряют системы из-за рубежа.</b> На АГМК (Кальмакыр, Ёшлик I) внедряется АСУ ГТК «Карьер» российской группы «Цифра»; на Васильковском ГОК в Казахстане — система Wenco. <a href="https://www.metalinfo.ru/ru/news/176686" target="_blank" rel="noopener">АГМК</a> · <a href="https://www.wencomine.com/resources/news" target="_blank" rel="noopener">Wenco</a></li>
+            <li><b>Местные решения закрывают отдельные задачи</b> — например, контроль усталости водителя или собственная диспетчеризация одной компании. <a href="https://www.vnedra.ru/glavnaya-tema/renovacziya-dispetcherizaczii-11972/" target="_blank" rel="noopener">пример</a></li>
+            <li><b>Спрос на местную разработку есть.</b> Kazakhmys Coal разместил на Astana Hub задачу на разработку и внедрение системы диспетчеризации разреза «Молодёжный». <a href="https://astanahub.com/ru/tech_task/razrabotka-i-vnedrenie-avtomatizirovannoi-sistemy-dispetcherezatsii-i-upravleniia-gornotrasportnym-komp1769065249" target="_blank" rel="noopener">Astana Hub</a></li>
+          </ul>
+          <p style="margin-top: 18px">Для INTANT это возможность выйти к заказчикам с собственным комплексным решением, которое развивается рядом, а не перепродавать чужой продукт.</p>
+          <p class="note">Данные о внедрениях — из публикаций предприятий и отраслевых СМИ; актуальный статус стоит уточнять у заказчика.</p>
+        </div>
+        <figure class="frame"><img src="media/tour2.jpg" alt="Пролёт: базовая станция DRIVE E5-BSI на мачте у бровки карьера" loading="lazy"><figcaption>Пролёт для пресейла: проект сети показывается до закупки</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="pilot" class="alt">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Путь к первому объекту</p>
+        <h2>Пилот: честный план</h2>
+        <p class="lede">Сегодня продукт проверен на модели карьеров и на эмуляторах оборудования. Чтобы пилот на реальной технике прошёл уверенно, нужен подготовительный этап. Что делает каждая сторона, расписано ниже.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="when">Подготовка · 3–4 недели</span>
+          <h3>Qidrix дорабатывает</h3>
+          <ul>
+            <li>Хранение журнала, добычи и простоев на шлюзе, отчёты смены из него</li>
+            <li>Учёт рейсов и тонн по реальной телеметрии</li>
+            <li>Защищённое соединение (HTTPS), установка шлюза службой, резервные копии</li>
+          </ul>
+        </div>
+        <div class="step">
+          <span class="when">Подготовка · параллельно</span>
+          <h3>INTANT и заказчик</h3>
+          <ul>
+            <li>Монтаж терминала и камеры на первый самосвал, планшет в кабину</li>
+            <li>Сервер под шлюз, доступ к сети карьера</li>
+            <li>Опорные точки и съёмка рельефа от маркшейдерии</li>
+            <li>Согласие водителей на видеоконтроль</li>
+          </ul>
+        </div>
+        <div class="step">
+          <span class="when">Пилот · 1–2 месяца</span>
+          <h3>Один карьер</h3>
+          <ul>
+            <li>5–10 самосвалов, 1–2 экскаватора</li>
+            <li>Критерии успеха фиксируем заранее: техника на карте в реальном времени, наряды в кабину, отчёт смены, тревоги «Антисона»</li>
+            <li>Замечания с объекта дорабатываем по ходу</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout" style="margin-top: 28px">
+        <h3>Что получает INTANT</h3>
+        <p>Готовый продукт для своих проектов, демо-стенд для пресейла, обучение инженеров, подключение ваших решений и оборудования к платформе, совместные демонстрации у заказчиков. Развитие продукта идёт по задачам ваших объектов.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Попробовать</p>
+        <h2>Демо открывается в браузере</h2>
+        <p class="lede">Модель карьеров АГМК с техникой в работе. Кнопка «Кабина» вверху открывает экран водителя: назначьте машину на пульте и ответьте за водителя.</p>
+      </div>
+      <div class="cta">
+        <a class="btn" href="https://qidrixman.github.io/qidrix-karier/" target="_blank" rel="noopener">Открыть демо Qidrix Карьер</a>
+        <span class="muted">Для живой демонстрации с оборудованием — по договорённости</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Qidrix · интеграция промышленных инноваций</span>
+    <span>Материал подготовлен для INTANT · снимки и ролики с работающей программы</span>
+  </div>
+</footer>
+
+<div class="lb" hidden id="lb" role="dialog" aria-modal="true" aria-label="Снимок в полном размере">
+  <img alt="">
+  <button type="button" aria-label="Закрыть">×</button>
+</div>
+
+<script>
+(() => {
+  // Phone notice: shown on narrow screens until the reader chooses to continue (remembered for the visit).
+  const root = document.documentElement;
+  try { if (sessionStorage.getItem('qidrix.intant.phone') === 'skip') root.classList.add('desk-skip'); } catch {}
+  const phone = window.matchMedia('(max-width: 760px)');
+  const lock = () => document.body.classList.toggle('desk-on', phone.matches && !root.classList.contains('desk-skip'));
+  lock();
+  phone.addEventListener?.('change', lock);
+  document.getElementById('desk-skip').addEventListener('click', () => {
+    root.classList.add('desk-skip');
+    try { sessionStorage.setItem('qidrix.intant.phone', 'skip'); } catch {}
+    lock();
+  });
+
+  // Clips play while on screen (poster frame at rest; no motion for reduced-motion viewers).
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vids = document.querySelectorAll('video[data-auto]');
+  if (!still && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause())), { threshold: 0.35 });
+    vids.forEach((v) => io.observe(v));
+  } else vids.forEach((v) => v.setAttribute('controls', ''));
+  vids.forEach((v) => v.addEventListener('click', () => (v.paused ? v.play() : v.pause())));
+
+  // Lightbox for screenshots.
+  const lb = document.getElementById('lb');
+  const img = lb.querySelector('img');
+  const close = () => { lb.hidden = true; img.removeAttribute('src'); };
+  document.querySelectorAll('button.zoom').forEach((b) => b.addEventListener('click', () => {
+    img.src = b.dataset.full;
+    img.alt = b.querySelector('img')?.alt || '';
+    lb.hidden = false;
+    lb.querySelector('button').focus();
+  }));
+  lb.addEventListener('click', (e) => { if (e.target === lb || e.target.tagName === 'BUTTON') close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lb.hidden) close(); });
+})();
+</script>
+</body>
+</html>
